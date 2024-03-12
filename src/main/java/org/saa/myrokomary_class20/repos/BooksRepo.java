@@ -1,6 +1,8 @@
 package org.saa.myrokomary_class20.repos;
 
 import org.saa.myrokomary_class20.dto.Books;
+import org.saa.myrokomary_class20.entity.BooksEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -8,9 +10,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
-public class BooksRepo {
-    private List<Books> booksList = new ArrayList<>();
+public class BooksRepo{
 
+    private List<Books> booksList = new ArrayList<>();
 
     public List<Books> getBooksList(){
         return this.booksList;
@@ -44,7 +46,6 @@ public class BooksRepo {
             }
         });
     }
-
     public Books getBookById(Long id){
         return (Books) this.booksList.stream()
                 .filter(b -> b.getId()==id);
