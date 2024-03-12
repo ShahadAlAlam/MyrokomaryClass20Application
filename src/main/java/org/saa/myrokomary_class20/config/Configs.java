@@ -10,6 +10,7 @@ public class Configs {
 //    spring.datasource.password=<YOUR_PASSWORD>
 //    spring.jpa.hibernate.ddl-auto=<create | create-drop | update | validate | none>
 //    spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+//    spring.jpa.generate-ddl = true
     @Value("spring.datasource.url")
     private static String config_db_url="jdbc:postgresql://localhost:5432/postgres";
 
@@ -25,19 +26,31 @@ public class Configs {
     @Value("spring.jpa.properties.hibernate.dialect")
     private static String config_hibernate_dialect="org.hibernate.dialect.PostgreSQLDialect";
 
+    @Value("spring.jpa.generate-ddl")
+    private static String config_jpa_generate_ddl="true";
+
     public static void loadConfig(){
-        config_db_url="jdbc:postgresql://localhost:5432/postgres";
+        config_db_url=getEnvValue("config_db_url", "jdbc:postgresql://localhost:5432/postgres");
 
-        config_db_user="postgres";
+        config_db_user=getEnvValue("config_db_user","postgres");
 
-        config_db_password="SYSTEM11g";
+        config_db_password=getEnvValue("config_db_password","SYSTEM11g");
 
-        config_hibernate_ddl_auto="validate";// "create-drop";
+        config_hibernate_ddl_auto=getEnvValue("config_hibernate_ddl_auto","validate");// "create-drop";
 
-        config_hibernate_dialect="org.hibernate.dialect.PostgreSQLDialect";
+        config_hibernate_dialect=getEnvValue("config_hibernate_dialect","org.hibernate.dialect.PostgreSQLDialect");
+
+        config_jpa_generate_ddl=getEnvValue("config_jpa_generate_ddl","true");
 
     }
 
+    private static String getEnvValue(String key, String defaultValue){
+        if(!System.getenv(key).equals("")){
+            return System.getenv(key);
+        } else {
+            return defaultValue;
+        }
+    }
     public static String getConfig_db_url() {
         return config_db_url;
     }
