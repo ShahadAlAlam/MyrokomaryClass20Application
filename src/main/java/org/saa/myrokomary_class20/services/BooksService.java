@@ -15,12 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class BooksService {
-    @Autowired
+public class BooksService implements BooksServiceInterface {
     private BooksEntityRepo booksEntityRepo;
 
-    @Autowired
-    private BooksRepo booksRepo;
+    BooksService(BooksEntityRepo booksEntityRepo){
+        this.booksEntityRepo = booksEntityRepo;
+    }
 
     ModelMapper mapper =  new ModelMapper();
     public List<Books> getAllBooks(){
@@ -38,7 +38,6 @@ public class BooksService {
     }
 
     @Transactional
-    @PostMapping(value="/add-book")
     public void addBooks(Books books){
 
 //        booksRepo.addBooks(books);
