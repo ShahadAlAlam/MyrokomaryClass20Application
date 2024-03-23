@@ -4,21 +4,17 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.saa.myrokomary_class20.dto.Books;
 import org.saa.myrokomary_class20.entity.BooksEntity;
-import org.saa.myrokomary_class20.repos.BooksEntityRepo;
 import org.saa.myrokomary_class20.repos.BooksRepo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class BooksServiceInternal implements BooksServiceInterface {
+public class BooksServiceInternalImpl implements BooksService {
 
     private BooksRepo booksRepo;
 
-    BooksServiceInternal(BooksRepo booksRepo){
+    BooksServiceInternalImpl(BooksRepo booksRepo){
         this.booksRepo=booksRepo;
     }
     ModelMapper mapper =  new ModelMapper();
@@ -31,20 +27,20 @@ public class BooksServiceInternal implements BooksServiceInterface {
     }
 
     @Transactional
-    public void addBooks(Books books){
+    public void addBooks(BooksEntity books){
 
-        booksRepo.addBooks(books);
+        booksRepo.addBooks(new Books(books));
     }
 
     @Transactional
-    public void updateBooks(Books books){
+    public void updateBooks(BooksEntity books){
 
-        booksRepo.updateBooks(books.getId(),books);
+        booksRepo.updateBooks(books.id,new Books( books));
     }
 
     @Transactional
-    public void deleteBooks(Books books){
-        booksRepo.deleteBooks(books);
+    public void deleteBooks(BooksEntity books){
+        booksRepo.deleteBooks(new Books( books));
     }
 
 }

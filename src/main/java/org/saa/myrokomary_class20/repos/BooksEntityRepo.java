@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-//@Repository
+@Repository
 public interface BooksEntityRepo extends JpaRepository<BooksEntity,Long> {
 
     @Query(value=" Select coalesce(Max(Id),0)+1  from accounting.books ",nativeQuery = true)

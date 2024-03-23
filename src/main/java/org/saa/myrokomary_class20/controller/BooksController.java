@@ -1,12 +1,10 @@
 package org.saa.myrokomary_class20.controller;
 
 import org.saa.myrokomary_class20.dto.Books;
-import org.saa.myrokomary_class20.repos.BooksRepo;
+import org.saa.myrokomary_class20.entity.BooksEntity;
+import org.saa.myrokomary_class20.services.BooksServiceDbImpl;
 import org.saa.myrokomary_class20.services.BooksService;
-import org.saa.myrokomary_class20.services.BooksServiceInterface;
-import org.saa.myrokomary_class20.services.BooksServiceInternal;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.saa.myrokomary_class20.services.BooksServiceInternalImpl;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,42 +14,43 @@ import java.util.List;
 public class BooksController {
 
 //    @Autowired
-    private BooksServiceInterface booksServiceInterface;
+    private BooksService booksService;
 
 //    @Autowired
     private Environment env;
-    BooksController(BooksService booksService, BooksServiceInternal booksServiceInternal,Environment env){
+    BooksController(BooksServiceDbImpl booksServiceDb, BooksServiceInternalImpl booksServiceInternalImpl, Environment env){
         System.out.println("dbEnable="+env.getProperty("dbEnable"));
         if(env.getProperty("dbEnable").equals("true")) {
-            this.booksServiceInterface = booksService;
+            this.booksService = booksServiceDb;
         }
         else {
-            this.booksServiceInterface = booksServiceInternal;
+            this.booksService = booksServiceInternalImpl;
         }
     }
     @GetMapping(value="/all-books-list")
     public List<Books> getAllBooks(){
-        return booksServiceInterface.getAllBooks();
+        return booksService.getAllBooks();
     }
 
     @GetMapping(value="/get-book-by-id/{id}")
     public Books getBookById(@PathVariable(name="id") Long id){
-        return booksServiceInterface.getBookById(id);
+        return booksService.getBookById(id);
     }
 
     @PostMapping(value="/add-book")
-    public void addBooks(@RequestBody Books books){
-        booksServiceInterface.addBooks(books);
+    public void addBooks(@RequestBody BooksEntity books){
+        booksService.addBooks(books);
     }
 
     @PutMapping(value="/update-book")
-    public void updateBooks(@RequestBody Books books){
-        booksServiceInterface.updateBooks(books);
+    public void updateBooks(@RequestBody BooksEntity books){
+
+        booksService.updateBooks(books);
     }
 
     @DeleteMapping(value="/delete-book")
-    public void deleteBooks(@RequestBody Books books){
-        booksServiceInterface.deleteBooks(books);
+    public void deleteBooks(@RequestBody BooksEntity books){
+        booksService.deleteBooks(books);
     }
 
 

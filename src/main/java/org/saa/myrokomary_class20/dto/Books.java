@@ -1,5 +1,7 @@
 package org.saa.myrokomary_class20.dto;
 
+import org.saa.myrokomary_class20.entity.BooksEntity;
+
 public class Books  implements Comparable {
     private Long id;
     private String title;
@@ -118,5 +120,16 @@ public class Books  implements Comparable {
         else if(this.id<b.id){
             return -1;
         } else return 0;
+    }
+
+    public Books (BooksEntity books) {
+        this.id =  books.id;
+        this.title = books.title;
+        this.author = books.author;
+        this.publisher = books.publisher;
+        this.edition = books.edition;
+        this.numberOfPages = books.numberOfPages;
+        this.country = books.country;
+        this.language = books.language;
     }
 }
