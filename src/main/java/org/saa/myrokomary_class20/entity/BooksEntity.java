@@ -33,16 +33,16 @@ public class BooksEntity implements Serializable {
     @Column(name="language")
     public String language;
 
-//    public BooksEntity(Books books) {
-//        this.id =  books.getId();
-//        this.title = books.getTitle();
-//        this.author = books.getAuthor();
-//        this.publisher = books.getPublisher();
-//        this.edition = books.getEdition();
-//        this.numberOfPages = books.getNumberOfPages();
-//        this.country = books.getCountry();
-//        this.language = books.getLanguage();
-//    }
+    public BooksEntity(Books books) {
+        this.id =  books.getId();
+        this.title = books.getTitle();
+        this.author = books.getAuthor();
+        this.publisher = books.getPublisher();
+        this.edition = books.getEdition();
+        this.numberOfPages = books.getNumberOfPages();
+        this.country = books.getCountry();
+        this.language = books.getLanguage();
+    }
     BooksEntity(){
 
     }

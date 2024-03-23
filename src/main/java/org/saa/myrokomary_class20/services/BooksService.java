@@ -2,8 +2,10 @@ package org.saa.myrokomary_class20.services;
 
 import org.saa.myrokomary_class20.dto.Books;
 import org.saa.myrokomary_class20.entity.BooksEntity;
+import org.saa.myrokomary_class20.utils.ApiResponse;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -13,12 +15,12 @@ public interface BooksService {
     public Books getBookById(Long id);
 //    @Transactional
 //    @PostMapping(value="/add-book")
-    public void addBooks(BooksEntity books);
+    public void addBooks(Books books);
 
 //    @Transactional
-    public void updateBooks(BooksEntity books);
+    public ApiResponse updateBooks(HashMap<String,Object> books);
 
 //    @Transactional
-    public void deleteBooks(BooksEntity books);
+    public void deleteBooks(Books books);
 
 }

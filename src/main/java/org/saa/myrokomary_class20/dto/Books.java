@@ -2,6 +2,9 @@ package org.saa.myrokomary_class20.dto;
 
 import org.saa.myrokomary_class20.entity.BooksEntity;
 
+import java.util.HashMap;
+import java.util.Optional;
+
 public class Books  implements Comparable {
     private Long id;
     private String title;
@@ -131,5 +134,30 @@ public class Books  implements Comparable {
         this.numberOfPages = books.numberOfPages;
         this.country = books.country;
         this.language = books.language;
+    }
+
+    public Books (HashMap<String,Object> books) {
+        this.id =Long.parseLong( books.get("id").toString());
+        if( books.containsKey("title")) {
+            this.title = books.get("title").toString();
+        }
+        if( books.containsKey("author")) {
+            this.author = books.get("author").toString();
+        }
+        if( books.containsKey("publisher")) {
+            this.publisher = books.get("publisher").toString();
+        }
+        if( books.containsKey("edition")) {
+            this.edition = books.get("edition").toString();
+        }
+        if( books.containsKey("numberOfPages")) {
+            this.numberOfPages =Long.parseLong( books.get("numberOfPages").toString());
+        }
+        if( books.containsKey("country")) {
+            this.country = books.get("country").toString();
+        }
+        if( books.containsKey("language")) {
+            this.language = books.get("language").toString();
+        }
     }
 }

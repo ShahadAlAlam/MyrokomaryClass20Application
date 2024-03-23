@@ -5,8 +5,11 @@ import org.modelmapper.ModelMapper;
 import org.saa.myrokomary_class20.dto.Books;
 import org.saa.myrokomary_class20.entity.BooksEntity;
 import org.saa.myrokomary_class20.repos.BooksRepo;
+import org.saa.myrokomary_class20.utils.ApiResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -27,20 +30,25 @@ public class BooksServiceInternalImpl implements BooksService {
     }
 
     @Transactional
-    public void addBooks(BooksEntity books){
+    public void addBooks(Books books){
 
-        booksRepo.addBooks(new Books(books));
+        booksRepo.addBooks(books);
     }
 
     @Transactional
-    public void updateBooks(BooksEntity books){
+    public ApiResponse updateBooks(HashMap<String,Object> books){
+        try {
+            booksRepo.updateBooks(Long.parseLong(books.get("id").toString()), new Books(books));
+            return ApiResponse.build(HttpStatus.OK).body(books);
 
-        booksRepo.updateBooks(books.id,new Books( books));
+        } catch (Exception ex){
+            return ApiResponse.build(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
+        }
     }
 
     @Transactional
-    public void deleteBooks(BooksEntity books){
-        booksRepo.deleteBooks(new Books( books));
+    public void deleteBooks(Books books){
+        booksRepo.deleteBooks(books);
     }
 
 }

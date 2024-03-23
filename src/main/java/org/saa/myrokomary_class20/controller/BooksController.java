@@ -5,9 +5,13 @@ import org.saa.myrokomary_class20.entity.BooksEntity;
 import org.saa.myrokomary_class20.services.BooksServiceDbImpl;
 import org.saa.myrokomary_class20.services.BooksService;
 import org.saa.myrokomary_class20.services.BooksServiceInternalImpl;
+import org.saa.myrokomary_class20.utils.ApiResponse;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.http.HttpResponse;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -38,18 +42,18 @@ public class BooksController {
     }
 
     @PostMapping(value="/add-book")
-    public void addBooks(@RequestBody BooksEntity books){
+    public void addBooks(@RequestBody Books books){
         booksService.addBooks(books);
     }
 
     @PutMapping(value="/update-book")
-    public void updateBooks(@RequestBody BooksEntity books){
+    public ApiResponse updateBooks(@RequestBody HashMap<String,Object> books){
+        return booksService.updateBooks(books);
 
-        booksService.updateBooks(books);
     }
 
     @DeleteMapping(value="/delete-book")
-    public void deleteBooks(@RequestBody BooksEntity books){
+    public void deleteBooks(@RequestBody Books books){
         booksService.deleteBooks(books);
     }
 
