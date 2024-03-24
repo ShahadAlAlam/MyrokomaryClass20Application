@@ -30,9 +30,13 @@ public class BooksServiceInternalImpl implements BooksService {
     }
 
     @Transactional
-    public void addBooks(Books books){
+    public ApiResponse addBooks(Books books){
+        try {
+            return ApiResponse.build(HttpStatus.CREATED).body(booksRepo.addBooks(books));
+        } catch (Exception ex){
+            return ApiResponse.build(HttpStatus.INTERNAL_SERVER_ERROR).message(ex.getMessage());
+        }
 
-        booksRepo.addBooks(books);
     }
 
     @Transactional
@@ -47,8 +51,14 @@ public class BooksServiceInternalImpl implements BooksService {
     }
 
     @Transactional
-    public void deleteBooks(Books books){
-        booksRepo.deleteBooks(books);
+    public ApiResponse deleteBooks(Books books){
+
+        try {
+            booksRepo.deleteBooks(books);
+            return ApiResponse.build(HttpStatus.NO_CONTENT).message("Deleted Successfully");
+        } catch (Exception ex){
+            return ApiResponse.build(HttpStatus.INTERNAL_SERVER_ERROR).message("message Book not found");
+        }
     }
 
 }

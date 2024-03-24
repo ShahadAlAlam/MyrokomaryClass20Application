@@ -18,13 +18,14 @@ public class BooksRepo{
         return this.booksList;
     }
 
-    public void addBooks(Books books){
+    public Books addBooks(Books books){
       Long id;
       if(this.booksList.size()>0)
           id=this.booksList.stream().max((b,b1)->b.getId() > b1.getId() ? 1: -1).get().getId()+1;
       else id = 1L;
       books.setId(id);
       this.booksList.add(books);
+      return books;
     }
 
     public void deleteBooks(Books books){

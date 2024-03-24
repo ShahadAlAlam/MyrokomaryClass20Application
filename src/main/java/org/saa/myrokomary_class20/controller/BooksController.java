@@ -42,8 +42,8 @@ public class BooksController {
     }
 
     @PostMapping(value="/add-book")
-    public void addBooks(@RequestBody Books books){
-        booksService.addBooks(books);
+    public ApiResponse addBooks(@RequestBody Books books){
+       return booksService.addBooks(books);
     }
 
     @PutMapping(value="/update-book")

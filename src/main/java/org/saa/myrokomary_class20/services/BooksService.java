@@ -15,12 +15,12 @@ public interface BooksService {
     public Books getBookById(Long id);
 //    @Transactional
 //    @PostMapping(value="/add-book")
-    public void addBooks(Books books);
+    public ApiResponse addBooks(Books books);
 
 //    @Transactional
     public ApiResponse updateBooks(HashMap<String,Object> books);
 
 //    @Transactional
-    public void deleteBooks(Books books);
+    public ApiResponse deleteBooks(Books books);
 
 }
