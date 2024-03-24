@@ -6,10 +6,14 @@ import org.saa.myrokomary_class20.dto.Books;
 import org.saa.myrokomary_class20.entity.BooksEntity;
 import org.saa.myrokomary_class20.repos.BooksEntityRepo;
 import org.saa.myrokomary_class20.utils.ApiResponse;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
+import org.springframework.beans.PropertyAccessor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +22,7 @@ import java.util.Optional;
 @Service
 public class BooksServiceDbImpl implements BooksService {
     private BooksEntityRepo booksEntityRepo;
+    private BooksEntity booksEntity;
 
     BooksServiceDbImpl(BooksEntityRepo booksEntityRepo) {
         this.booksEntityRepo = booksEntityRepo;
@@ -52,30 +57,41 @@ public class BooksServiceDbImpl implements BooksService {
     @Transactional
     public ApiResponse updateBooks(HashMap<String, Object> books) {
 //    public void updateBooks(Books books){
-
         Optional<BooksEntity> bookUpdOpt = booksEntityRepo.findById(Long.parseLong(books.get("id").toString()));
+        BeanWrapper wrapper = new BeanWrapperImpl(bookUpdOpt.get());
+
         if (bookUpdOpt.isPresent()) {
-            if (books.containsKey("title")) {
-                bookUpdOpt.get().title = books.get("title").toString();
+        books.keySet().forEach(k->{
+            try {
+                wrapper.getPropertyDescriptor(k.toString()).getWriteMethod();
+                wrapper.setPropertyValue(k.toString(), books.get(k.toString()));
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
-            if (books.containsKey("author")) {
-                bookUpdOpt.get().author = books.get("author").toString();
-            }
-            if (books.containsKey("publisher")) {
-                bookUpdOpt.get().publisher = books.get("publisher").toString();
-            }
-            if (books.containsKey("edition")) {
-                bookUpdOpt.get().edition = books.get("edition").toString();
-            }
-            if (books.containsKey("numberOfPages")) {
-                bookUpdOpt.get().numberOfPages = Long.parseLong(books.get("numberOfPages").toString());
-            }
-            if (books.containsKey("country")) {
-                bookUpdOpt.get().country = books.get("country").toString();
-            }
-            if (books.containsKey("language")) {
-                bookUpdOpt.get().language = books.get("language").toString();
-            }
+//                    = books.get("title").toString();
+        });
+
+//            if (books.containsKey("title")) {
+//                bookUpdOpt.get().title = books.get("title").toString();
+//            }
+//            if (books.containsKey("author")) {
+//                bookUpdOpt.get().author = books.get("author").toString();
+//            }
+//            if (books.containsKey("publisher")) {
+//                bookUpdOpt.get().publisher = books.get("publisher").toString();
+//            }
+//            if (books.containsKey("edition")) {
+//                bookUpdOpt.get().edition = books.get("edition").toString();
+//            }
+//            if (books.containsKey("numberOfPages")) {
+//                bookUpdOpt.get().numberOfPages = Long.parseLong(books.get("numberOfPages").toString());
+//            }
+//            if (books.containsKey("country")) {
+//                bookUpdOpt.get().country = books.get("country").toString();
+//            }
+//            if (books.containsKey("language")) {
+//                bookUpdOpt.get().language = books.get("language").toString();
+//            }
             booksEntityRepo.save(bookUpdOpt.get());
             return ApiResponse.build(HttpStatus.OK).body(bookUpdOpt.get());
         } else{
