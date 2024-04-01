@@ -13,6 +13,6 @@ import java.util.List;
 @Repository
 public interface BooksEntityRepo extends JpaRepository<BooksEntity,Long> {
 
-    @Query(value=" Select coalesce(Max(Id),0)+1  from accounting.books ",nativeQuery = true)
+    @Query(value=" Select coalesce(Max(Id),0)+1  from books ",nativeQuery = true)
     public Long findMaxId();
 }

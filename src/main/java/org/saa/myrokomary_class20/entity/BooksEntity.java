@@ -6,15 +6,20 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import org.hibernate.annotations.DynamicUpdate;
+import org.saa.myrokomary_class20.config.AppProperties;
 import org.saa.myrokomary_class20.dto.Books;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.PropertySource;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
 
 @Entity
 @DynamicUpdate(value = true)
-@Table(name="books", schema="accounting")
+//@Table(name="books", schema="accounting")
+//@Table(name="books", schema="FERPN")
+@PropertySource("classpath:application.properties")
+@Table(name="books")
 public class BooksEntity implements Serializable {
     @Id
     @Column(updatable = false)
