@@ -25,6 +25,16 @@ public class ApiResponse<T> {
     HttpStatus status; //must or will not work
     T body; //must or will not work
     T header; //must or will not work
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
+
+    T data; //optional
     String message; //must or will not work
 
     public String getError() {
@@ -88,6 +98,16 @@ public class ApiResponse<T> {
 
     public ApiResponse message(String message){
         this.message = message;
+        return this;
+    }
+
+    public ApiResponse data(T data){
+        this.data = data;
+        return this;
+    }
+
+    public ApiResponse details(String details){
+        this.details = details;
         return this;
     }
 

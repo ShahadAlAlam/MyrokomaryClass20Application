@@ -65,6 +65,8 @@ public class Configs {
 
     private static Properties conProps = new Properties();
 
+    private static String[] allowedRestApiMethodes = {"GET","POST","PUT","DELETE"};
+
     public static void loadConfig(){
 //        db_db_type="POSTGRESQL";
 //        if(AppProperties.getDbType().equalsIgnoreCase("POSTGRESQL")) {
@@ -181,5 +183,9 @@ public class Configs {
 
     public static void setConfig_hibernate_dialect(String config_hibernate_dialect) {
         Configs.config_hibernate_dialect = config_hibernate_dialect;
+    }
+
+    public static String[] getAllowedRestApiMethodes() {
+        return allowedRestApiMethodes;
     }
 }

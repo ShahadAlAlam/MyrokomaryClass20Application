@@ -61,4 +61,15 @@ public class BooksServiceInternalImpl implements BooksService {
         }
     }
 
+    @Transactional
+    public ApiResponse deleteBooksById(Long id){
+
+        try {
+            booksRepo.deleteBooksById(id);
+            return ApiResponse.build(HttpStatus.NO_CONTENT).message("Deleted Successfully");
+        } catch (Exception ex){
+            return ApiResponse.build(HttpStatus.INTERNAL_SERVER_ERROR).message("message Book not found");
+        }
+    }
+
 }

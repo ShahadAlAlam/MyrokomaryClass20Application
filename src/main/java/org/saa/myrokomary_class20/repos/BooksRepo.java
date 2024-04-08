@@ -51,4 +51,8 @@ public class BooksRepo{
         return (Books) this.booksList.stream()
                 .filter(b -> b.getId()==id);
     }
+
+    public void deleteBooksById(Long id){
+        this.booksList.remove(getBookById(id));
+    }
 }

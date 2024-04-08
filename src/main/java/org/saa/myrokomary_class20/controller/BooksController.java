@@ -56,6 +56,10 @@ public class BooksController {
     public void deleteBooks(@RequestBody Books books){
         booksService.deleteBooks(books);
     }
+    @DeleteMapping(value="/delete-book-by-id/{id}")
+    public ApiResponse deleteBooksById(@PathVariable(name="id") Long id){
+        return booksService.deleteBooksById(id);
+    }
 
 
 }
