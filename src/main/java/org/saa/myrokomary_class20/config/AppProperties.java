@@ -11,6 +11,7 @@ public class AppProperties {
 
     private static Environment env;
 
+
     public AppProperties(Environment enve) {
         env = enve;
     }

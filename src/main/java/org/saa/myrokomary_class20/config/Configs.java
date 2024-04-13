@@ -8,52 +8,32 @@ import org.springframework.stereotype.Component;
 import java.util.Properties;
 
 @Configuration
-//@PropertySource("classpath:application.properties")
+@PropertySource("classpath:application.properties")
 public class Configs {
-/*    spring.datasource.url=jdbc:postgresql://localhost:5432/<YOUR_DATABASE_NAME>
-//    spring.datasource.username=<YOUR_USERNAME>
-//    spring.datasource.password=<YOUR_PASSWORD>
-//    spring.jpa.hibernate.ddl-auto=<create | create-drop | update | validate | none>
-//    spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
-//    spring.jpa.generate-ddl = true
+    Configs(){
+        build();
+    }
 
-//  postgreSql
-//    @Value("spring.datasource.url")
-//    private static String config_db_url="jdbc:postgresql://localhost:5432/postgres";
-//    @Value("spring.datasource.username")
-//    private static String config_db_user="postgres";
-//    @Value("spring.datasource.password")
-//    private static String config_db_password="SYSTEM11g";
-//    @Value("spring.jpa.properties.hibernate.dialect")
-//    private static String config_hibernate_dialect="org.hibernate.dialect.PostgreSQLDialect";
-*/
-
-//  Oracle
     @Value("spring.datasource.url")
     private static String config_db_url;
-//    private static String config_db_url="jdbc:oracle:thin:@//localhost:1521/TTT";
     @Value("spring.datasource.username")
     private static String config_db_user;
-//    private static String config_db_user="FERPN";
     @Value("spring.datasource.password")
     private static String config_db_password;
-//    private static String config_db_password="TTI";
-
-    @Value("spring.jpa.properties.hibernate.dialect")
-    private static String config_hibernate_dialect;
-//    private static String config_hibernate_dialect="org.hibernate.dialect.Oracle12cDialect";
 
     @Value("spring.datasource.driver-class-name")
     private static String config_db_driver;
-//    private static String config_db_driver="oracle.jdbc.OracleDriver";
 
-
+    @Value("spring.jpa.properties.hibernate.dialect")
+    private static String config_hibernate_dialect;
 
 //  Common Configuration
-    @Value("spring.jpa.hibernate.ddl-auto")
-    private static String config_hibernate_ddl_auto="create-drop";
-    @Value("spring.jpa.generate-ddl")
-    private static String config_jpa_generate_ddl="true";
+//    @Value("spring.jpa.hibernate.ddl-auto")
+    private static String config_hibernate_ddl_auto;
+//    private static String config_hibernate_ddl_auto="validate";// "create-drop";
+//    @Value("spring.jpa.generate-ddl")
+//    private static String config_jpa_generate_ddl="false";
+    private static String config_jpa_generate_ddl;
 
 
     @Value("${app.dbType}")
@@ -61,17 +41,15 @@ public class Configs {
 
     @Value("spring.jpa.properties.hibernate.default_schema")
     private static String db_default_schema;
-//    private static String db_default_schema="ferpn";
 
     private static Properties conProps = new Properties();
 
     private static String[] allowedRestApiMethodes = {"GET","POST","PUT","DELETE"};
-
-    public static void loadConfig(){
+    public static void build(){
 //        db_db_type="POSTGRESQL";
 //        if(AppProperties.getDbType().equalsIgnoreCase("POSTGRESQL")) {
         if(db_db_type.equalsIgnoreCase("POSTGRESQL")) {
-            config_db_url="jdbc:postgresql://localhost:5432/postgres";
+            config_db_url="jdbc:postgresql://192.168.1.222:5432/postgres";
             config_db_user="postgres";
             config_db_password="SYSTEM11g";
             config_hibernate_ddl_auto="validate";// "create-drop";
@@ -112,6 +90,10 @@ public class Configs {
         config_jpa_generate_ddl="true";
 
 
+    }
+
+    public static void loadConfig(){
+        build();
     }
 
     public static String getConfig_db_driver() {

@@ -105,6 +105,7 @@ public class Books  implements Comparable {
     @Override
     public String toString() {
         return "Books{" +
+                "id='" + id + '\'' +
                 "title='" + title + '\'' +
                 ", author='" + author + '\'' +
                 ", publisher='" + publisher + '\'' +

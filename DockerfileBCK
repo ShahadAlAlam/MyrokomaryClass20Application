@@ -1,0 +1,51 @@
+####Renamed The file for maven build
+
+### V3.1: Multi Staged Build with Optimization
+## it optimizes the download builds Layer by Layer
+## if anything downloaded before it will not download everythig like V2.1
+
+FROM maven:3.8.4-openjdk-17-slim AS build
+WORKDIR /home/app
+
+COPY ./pom.xml /home/app/pom.xml
+COPY ./src/main/java/org/saa/myrokomary_class20/MyrokomaryClass20Application.java /home/app/src/main/java/org/saa/myrokomary_class20/MyrokomaryClass20Application.java
+COPY ./src/main/java/org/saa/myrokomary_class20/config/Configs.java /home/app/src/main/java/org/saa/myrokomary_class20/config/Configs.java
+COPY ./src/main/java/org/saa/myrokomary_class20/config/DbConfig.java /home/app/src/main/java/org/saa/myrokomary_class20/config/DbConfig.java
+COPY ./src/main/java/org/saa/myrokomary_class20/interceptor/SecValidateorInterceptor.java /home/app/src/main/java/org/saa/myrokomary_class20/interceptor/SecValidateorInterceptor.java
+RUN mvn -X -f /home/app/pom.xml clean package
+
+
+COPY . /home/app
+RUN mvn -X -f /home/app/pom.xml clean package
+
+FROM openjdk:17-jdk-slim
+EXPOSE 8090
+COPY --from=build /home/app/target/*.jar app.jar
+ENTRYPOINT [ "sh", "-c", "java -jar /app.jar" ]
+
+
+### V2.1: Multi stage Docker build
+## it cleated a docker image and buildes the application in docker images
+## we only need to run "docker build -t saa/myrokomary_class20:v1 ." .
+## we do not need to build the project running "mvn clean install" like previous Dockerfile example stated below version V1.1
+## but if anything changes it builds the whole project from the begining which is slow
+# Stage 1: Build the Spring Boot application
+#FROM maven:3.8.4-openjdk-17-slim AS build
+#WORKDIR /home/app
+#COPY . /home/app
+#RUN mvn -X -f /home/app/pom.xml clean package
+#
+## Stage 2: Create the final Docker image
+#FROM openjdk:17-jdk-slim
+#VOLUME /tmp
+#COPY --from=build /home/app/target/*.jar /app.jar
+#EXPOSE 8090
+#ENTRYPOINT ["java", "-jar", "/app.jar"]
+
+### V1.1: Only Creates Docker Image
+## in this style we have to build the projecj with mvn clean install
+## then have to run "docker build -t saa/myrokomary_class20:v1 ." to create the Docker Image
+#FROM openjdk:17-jdk-slim
+#COPY target/*.jar app.jar
+#EXPOSE 5000
+#ENTRYPOINT ["java","-jar","/app.jar"]

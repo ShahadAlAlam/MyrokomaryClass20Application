@@ -112,7 +112,7 @@ public class BooksServiceDbImpl implements BooksService {
     public ApiResponse deleteBooksById(Long id) {
         try {
             booksEntityRepo.deleteById(id);
-            return ApiResponse.build(HttpStatus.NO_CONTENT).message("Deleted Successfully").body("Deleted Successfully").data("{Deleted Successfully}").details("{Deleted Successfully}");
+            return ApiResponse.build(HttpStatus.OK).body("Deleted Successfully").message("Deleted Successfully").data("Deleted Successfully").details("Deleted Successfully");
         } catch (Exception ex){
             return ApiResponse.build(HttpStatus.INTERNAL_SERVER_ERROR).message("message Book not found").body("message Book not found").data("message Book not found").details("message Book not found");
         }

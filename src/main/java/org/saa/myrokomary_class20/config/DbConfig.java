@@ -23,6 +23,7 @@ public class DbConfig {
 
 /* working */
         DriverManagerDataSource  dbSource = new DriverManagerDataSource();
+        Configs.build();
         dbSource.setDriverClassName(Configs.getConfig_db_driver());// env.getProperty("spring.datasource.driver-class-name"));
         dbSource.setUrl(Configs.getConfig_db_url());//env.getProperty("spring.datasource.url"));
         dbSource.setUsername(Configs.getConfig_db_user());//env.getProperty("spring.datasource.username"));

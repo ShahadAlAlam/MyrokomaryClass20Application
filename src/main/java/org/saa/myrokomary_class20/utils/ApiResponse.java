@@ -86,13 +86,13 @@ public class ApiResponse<T> {
         this.timestamp = new Date();
     }
 
-    public ApiResponse body(T body){
-        this.body = body;
+    public ApiResponse header(T body){
+        this.header = body;
         return this;
     }
 
-    public ApiResponse header(T body){
-        this.header = body;
+    public ApiResponse body(T body){
+        this.body = body;
         return this;
     }
 

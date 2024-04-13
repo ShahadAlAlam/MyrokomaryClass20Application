@@ -21,6 +21,7 @@ import java.lang.reflect.Field;
 @PropertySource("classpath:application.properties")
 @Table(name="books")
 public class BooksEntity implements Serializable {
+
     @Id
     @Column(updatable = false)
     public Long id;
@@ -71,6 +72,13 @@ public class BooksEntity implements Serializable {
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
+    }
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {

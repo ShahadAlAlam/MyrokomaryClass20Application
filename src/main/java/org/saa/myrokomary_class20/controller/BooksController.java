@@ -31,6 +31,7 @@ public class BooksController {
             this.booksService = booksServiceInternalImpl;
         }
     }
+//    @GetMapping(value="/")
     @GetMapping(value="/all-books-list")
     public List<Books> getAllBooks(){
         return booksService.getAllBooks();
