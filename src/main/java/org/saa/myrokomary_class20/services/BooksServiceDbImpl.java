@@ -48,7 +48,7 @@ public class BooksServiceDbImpl implements BooksService {
         try {
             Long id = booksEntityRepo.findMaxId();
             books.setId(((id != null ? id : 1L)));
-            return ApiResponse.build(HttpStatus.CREATED).body(booksEntityRepo.save(new BooksEntity(books)));
+            return ApiResponse.build(HttpStatus.CREATED).body(booksEntityRepo.save(new BooksEntity(books))).details("Data Added Successfully");
         } catch (Exception ex) {
             return ApiResponse.build(HttpStatus.INTERNAL_SERVER_ERROR).message(ex.getMessage());
         }
@@ -93,7 +93,7 @@ public class BooksServiceDbImpl implements BooksService {
 //                bookUpdOpt.get().language = books.get("language").toString();
 //            }
             booksEntityRepo.save(bookUpdOpt.get());
-            return ApiResponse.build(HttpStatus.OK).body(bookUpdOpt.get());
+            return ApiResponse.build(HttpStatus.OK).body(bookUpdOpt.get()).details("Data Saved Successfully");
         } else{
         return ApiResponse.build(HttpStatus.NOT_FOUND).body(books).message("message Book not found");
     }

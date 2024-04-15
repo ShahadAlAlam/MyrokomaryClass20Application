@@ -1,4 +1,4 @@
-package org.saa.myrokomary_class20.interceptor;
+package org.saa.myrokomary_class20.config.security.interceptor;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -8,7 +8,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 
-@Component("SecutiryValidator")
+//@Component("SecutiryValidator")
 public class SecValidateorInterceptor implements HandlerInterceptor{
 
 //    @Override

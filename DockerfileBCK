@@ -11,7 +11,7 @@ COPY ./pom.xml /home/app/pom.xml
 COPY ./src/main/java/org/saa/myrokomary_class20/MyrokomaryClass20Application.java /home/app/src/main/java/org/saa/myrokomary_class20/MyrokomaryClass20Application.java
 COPY ./src/main/java/org/saa/myrokomary_class20/config/Configs.java /home/app/src/main/java/org/saa/myrokomary_class20/config/Configs.java
 COPY ./src/main/java/org/saa/myrokomary_class20/config/DbConfig.java /home/app/src/main/java/org/saa/myrokomary_class20/config/DbConfig.java
-COPY ./src/main/java/org/saa/myrokomary_class20/interceptor/SecValidateorInterceptor.java /home/app/src/main/java/org/saa/myrokomary_class20/interceptor/SecValidateorInterceptor.java
+COPY src/main/java/org/saa/myrokomary_class20/config/security/interceptor/SecValidateorInterceptor.java /home/app/src/main/java/org/saa/myrokomary_class20/interceptor/SecValidateorInterceptor.java
 RUN mvn -X -f /home/app/pom.xml clean package
 
 
