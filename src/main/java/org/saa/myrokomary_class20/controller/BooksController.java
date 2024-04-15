@@ -31,6 +31,11 @@ public class BooksController {
             this.booksService = booksServiceInternalImpl;
         }
     }
+//    @GetMapping(value="/basicauth")
+//    public ApiResponse basicAuth(){
+//
+//        return ApiResponse.build(HttpStatus.OK).body("successfull");
+//    }
 //    @GetMapping(value="/")
     @GetMapping(value="/all-books-list")
     public List<Books> getAllBooks(){

@@ -15,4 +15,6 @@ public interface BooksEntityRepo extends JpaRepository<BooksEntity,Long> {
 
     @Query(value=" Select coalesce(Max(Id),0)+1  from books ",nativeQuery = true)
     public Long findMaxId();
+
+    public List<BooksEntity> findAllByOrderByIdAsc();
 }

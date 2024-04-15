@@ -32,7 +32,7 @@ public class BooksServiceDbImpl implements BooksService {
 
     public List<Books> getAllBooks() {
         List<Books> lb = new ArrayList<>();
-        lb = mapper.map(booksEntityRepo.findAll().stream().toList(), List.class);
+        lb = mapper.map(booksEntityRepo.findAllByOrderByIdAsc().stream().toList(), List.class);
         return lb;
     }
 
