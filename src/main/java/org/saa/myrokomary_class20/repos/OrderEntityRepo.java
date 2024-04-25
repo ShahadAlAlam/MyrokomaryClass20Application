@@ -16,4 +16,8 @@ public interface OrderEntityRepo extends JpaRepository<OrderEntity,Long> {
     public Long findMaxId();
 
     public List<OrderEntity> findAllByAccountAccountId (Long accountId);
+
+
+
+    public OrderEntity findByAccountAccountIdAndOrderId (Long accountId,Long orderId);
 }

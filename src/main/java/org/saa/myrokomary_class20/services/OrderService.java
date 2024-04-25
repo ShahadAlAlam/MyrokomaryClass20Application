@@ -2,26 +2,17 @@ package org.saa.myrokomary_class20.services;
 
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
-import org.saa.myrokomary_class20.dto.Books;
 import org.saa.myrokomary_class20.dto.OrderDto;
-import org.saa.myrokomary_class20.entity.AccountEntity;
-import org.saa.myrokomary_class20.entity.BooksEntity;
 import org.saa.myrokomary_class20.entity.OrderEntity;
 import org.saa.myrokomary_class20.entity.OrderItemsEntity;
-import org.saa.myrokomary_class20.repos.BooksEntityRepo;
 import org.saa.myrokomary_class20.repos.OrderEntityRepo;
 import org.saa.myrokomary_class20.repos.OrderItemsEntityRepo;
 import org.saa.myrokomary_class20.utils.ApiResponse;
-import org.springframework.beans.BeanWrapper;
-import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class OrderService {
@@ -46,7 +37,6 @@ public class OrderService {
 
 
     public ApiResponse getAllOrders(Long accountId) {
-//        AccountEntity account = new AccountEntity(accountId);
        Optional<List<OrderEntity>> data = Optional.ofNullable(orderEntityRepo.findAllByAccountAccountId(accountId));
        if(data.isPresent()){
            List<OrderDto> orderDtos = new ArrayList<>();
@@ -58,11 +48,27 @@ public class OrderService {
                orderDtos.add(od);
            });
            return ApiResponse.build(HttpStatus.OK).data(orderDtos).details("data found");
-
        }
        else
         return ApiResponse.build(HttpStatus.NO_CONTENT).body("data not found for "+accountId);
     }
+
+    public ApiResponse getOrderInfo(Map<String,Object> params) {
+        Long accountId = Long.parseLong(params.get("accountId").toString());
+        Long orderId = Long.parseLong(params.get("orderId").toString());
+        Optional<OrderEntity> data = Optional.ofNullable(orderEntityRepo.findByAccountAccountIdAndOrderId(accountId,orderId));
+        if(data.isPresent()){
+            OrderDto orderDtos = new OrderDto();
+            OrderEntity order = data.get();
+            orderDtos.setOrder(order);
+            orderDtos.setOrderItems(order.getOrderItems());
+            return ApiResponse.build(HttpStatus.OK).data(orderDtos).details("data found");
+        }
+        else
+            return ApiResponse.build(HttpStatus.NO_CONTENT).body("data not found for "+accountId);
+    }
+
+
     @Transactional
     public ApiResponse addOrder(OrderDto orderDto) {
         try {

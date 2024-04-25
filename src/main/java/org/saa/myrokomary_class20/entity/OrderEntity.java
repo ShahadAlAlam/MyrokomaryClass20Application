@@ -23,7 +23,7 @@ import java.util.List;
 public class OrderEntity {
     @Id
     @Column(insertable = true,updatable = false)
-    private Long OrderId;
+    private Long orderId;
 
     @Column(unique = true, nullable = false, length = 50)
     private String orderNo;
@@ -35,6 +35,9 @@ public class OrderEntity {
 
     @Column(length = 10)
     private String orderStatus;
+
+    @Transient
+    private Double totalAmount;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="accountId", nullable=false, referencedColumnName = "accountId")
@@ -48,6 +51,11 @@ public class OrderEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="accountAddressId", nullable=false)
     private AccountAddress accountAddress;
+
+    @PostLoad
+    public void calculateTotalValue(){
+       this.totalAmount= this.orderItems.stream().map(i->i.getTotalAmt()).reduce(0D,Double::sum);
+    }
 
     public void addOrderItem(OrderItemsEntity orderItemsEntity){
         if(this.orderItems!=null){
