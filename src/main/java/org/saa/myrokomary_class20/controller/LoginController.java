@@ -1,12 +1,10 @@
 package org.saa.myrokomary_class20.controller;
 
-import org.saa.myrokomary_class20.dto.Books;
-import org.saa.myrokomary_class20.services.BooksService;
-import org.saa.myrokomary_class20.services.BooksServiceDbImpl;
-import org.saa.myrokomary_class20.services.BooksServiceInternalImpl;
-import org.saa.myrokomary_class20.utils.ApiResponse;
-import org.springframework.core.env.Environment;
-import org.springframework.http.HttpStatus;
+import org.saa.myrokomary_class20.config.security.jwt.JwtTokenResponse;
+import org.saa.myrokomary_class20.config.security.jwt.JwtTokenService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -19,5 +17,31 @@ public class LoginController {
 
         return "hello world";
     }
+//    private final JwtTokenService tokenService;
 
+//    private final AuthenticationManager authenticationManager;
+
+//    public LoginController(JwtTokenService tokenService,
+//                                       AuthenticationManager authenticationManager) {
+//        this.tokenService = tokenService;
+//        this.authenticationManager = authenticationManager;
+//    }
+//
+//    @PostMapping("/authenticate")
+//    public ResponseEntity<JwtTokenResponse> generateToken(
+//            @RequestBody JwtTokenRequest jwtTokenRequest) {
+//
+//        var authenticationToken =
+//                new UsernamePasswordAuthenticationToken(
+//                        jwtTokenRequest.username(),
+//                        jwtTokenRequest.password());
+//
+//        var authentication =
+//                authenticationManager.authenticate(authenticationToken);
+//
+//        var token = tokenService.generateToken(authentication);
+//
+//        return ResponseEntity.ok(new JwtTokenResponse(token));
+//    }
+    public record JwtTokenRequest(String username, String password) {}
 }

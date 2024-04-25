@@ -22,6 +22,6 @@ public interface BooksService {
 
 //    @Transactional
     public ApiResponse deleteBooks(Books books);
-    public ApiResponse deleteBooksById(Long id);
+    public ApiResponse deleteBooksById(Long booksId);
 
 }

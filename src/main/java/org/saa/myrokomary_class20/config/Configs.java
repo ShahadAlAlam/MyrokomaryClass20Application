@@ -28,12 +28,12 @@ public class Configs {
     private static String config_hibernate_dialect;
 
 //  Common Configuration
-//    @Value("spring.jpa.hibernate.ddl-auto")
-    private static String config_hibernate_ddl_auto;
-//    private static String config_hibernate_ddl_auto="validate";// "create-drop";
-//    @Value("spring.jpa.generate-ddl")
-//    private static String config_jpa_generate_ddl="false";
-    private static String config_jpa_generate_ddl;
+    @Value("spring.jpa.hibernate.ddl-auto")
+//    private static String config_hibernate_ddl_auto;
+    private static String config_hibernate_ddl_auto="create-drop";
+    @Value("spring.jpa.generate-ddl")
+//    private static String config_jpa_generate_ddl;
+    private static String config_jpa_generate_ddl="true";
 
 
     @Value("${app.dbType}")
@@ -41,6 +41,7 @@ public class Configs {
 
     @Value("spring.jpa.properties.hibernate.default_schema")
     private static String db_default_schema;
+//    private static String db_default_schema="rokomary";
 
     private static Properties conProps = new Properties();
 
@@ -52,17 +53,19 @@ public class Configs {
             config_db_url="jdbc:postgresql://192.168.1.222:5432/postgres";
             config_db_user="postgres";
             config_db_password="SYSTEM11g";
-            config_hibernate_ddl_auto="validate";// "create-drop";
+            config_jpa_generate_ddl = "true";
+//            config_hibernate_ddl_auto="validate";// "create-drop";
+            config_hibernate_ddl_auto="create-drop";
             config_hibernate_dialect="org.hibernate.dialect.PostgreSQLDialect";
             config_db_driver = "org.postgresql.Driver";
-            db_default_schema="accounting";
+            db_default_schema="rokomary";
 
             conProps.setProperty("url","jdbc:postgresql://localhost:5432/postgres");
             conProps.setProperty("username","postgres");
             conProps.setProperty("password","SYSTEM11g");
             conProps.setProperty("spring.jpa.properties.hibernate.dialect",
                     "org.hibernate.dialect.PostgreSQLDialect");
-            conProps.setProperty("schema","accounting");
+            conProps.setProperty("schema","rokomary");
             conProps.setProperty("spring.jpa.hibernate.ddl-auto","create-drop");
             conProps.setProperty("spring.jpa.generate-ddl","true");
             conProps.setProperty("driverClassName","org.postgresql.Driver");

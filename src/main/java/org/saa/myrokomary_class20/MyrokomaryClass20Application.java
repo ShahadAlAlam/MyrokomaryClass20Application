@@ -9,13 +9,14 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 @EntityScan(basePackages={"org.saa.myrokomary_class20.*"})
-@ComponentScan(basePackages={"org.saa.myrokomary_class20.*"})
+@ComponentScan(basePackages={"org.saa.myrokomary_class20.*","org.saa.myrokomary_class20.config.security.*"})
 @EnableJpaRepositories(basePackages={"org.saa.myrokomary_class20.*"})
-@EnableWebMvc //if this is not added then interceptor will give error class not found
+//@EnableWebMvc //if this is not added then interceptor will give error class not found
 public class MyrokomaryClass20Application {
 
     public static void main(String[] args) {
@@ -29,16 +30,40 @@ public class MyrokomaryClass20Application {
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
-
-//            @Autowired
-//            private SecValidateorInterceptor secValidateorInterceptor;
             @Override
             public void addCorsMappings(CorsRegistry registry) {
+
                 registry.addMapping("/**")
-                        .allowedMethods(Configs.getAllowedRestApiMethodes())
-//                        .allowedMethods("GET","POST")
-                        .allowedOrigins("*");
+                        .allowedMethods(Configs.getAllowedRestApiMethodes()) // Allow specific HTTP methods
+//                        .allowedMethods("GET","POST") // Allow specific HTTP methods
+                        .allowedOrigins("*") // Allow requests from any origin (update as needed)
+                        .allowedHeaders("*") // Allow all headers
+//                        .allowCredentials(true)
+                ; // Allow sending credentials (e.g., cookies, Authorization header)
             }
+
+            @Override
+            public void addResourceHandlers(ResourceHandlerRegistry registry) {
+                registry.addResourceHandler("/swagger-ui/**")
+                        .addResourceLocations("classpath:/META-INF/resources/webjars/springdoc-openapi-ui/")
+                        .resourceChain(false);
+            }
+//        return new WebMvcConfigurer() {
+//
+////            @Autowired
+////            private SecValidateorInterceptor secValidateorInterceptor;
+//            @Override
+//            public void addCorsMappings(CorsRegistry registry) {
+//                registry.addMapping("/**")
+//                        .allowedMethods(Configs.getAllowedRestApiMethodes()) // Allow specific HTTP methods
+////                        .allowedMethods("GET","POST") // Allow specific HTTP methods
+//                        .allowedOrigins("*") // Allow requests from any origin (update as needed)
+//                        .allowedHeaders("*") // Allow all headers
+////                        .allowCredentials(true)
+//                ; // Allow sending credentials (e.g., cookies, Authorization header)
+
+
+
 
 //            @Override
 //            public void addInterceptors(InterceptorRegistry registry){

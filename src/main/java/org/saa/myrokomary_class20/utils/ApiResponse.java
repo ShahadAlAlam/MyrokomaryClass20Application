@@ -37,18 +37,18 @@ public class ApiResponse<T> {
     T data; //optional
     String message; //must or will not work
 
-    public String getError() {
+    public T getError() {
         return error;
     }
 
-    public void setError(String error) {
+    public void setError(T error) {
         this.error = error;
     }
 
 
 
 
-    String error; //must or will not work
+    T error; //must or will not work
     String path; //must or will not work
 
     ApiResponse(){
@@ -108,6 +108,11 @@ public class ApiResponse<T> {
 
     public ApiResponse details(String details){
         this.details = details;
+        return this;
+    }
+
+    public ApiResponse error(T error){
+        this.error = error;
         return this;
     }
 

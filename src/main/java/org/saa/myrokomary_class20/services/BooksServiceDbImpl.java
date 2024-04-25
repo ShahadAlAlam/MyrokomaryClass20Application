@@ -32,14 +32,14 @@ public class BooksServiceDbImpl implements BooksService {
 
     public List<Books> getAllBooks() {
         List<Books> lb = new ArrayList<>();
-        lb = mapper.map(booksEntityRepo.findAllByOrderByIdAsc().stream().toList(), List.class);
+        lb = mapper.map(booksEntityRepo.findAllByOrderByBooksIdAsc().stream().toList(), List.class);
         return lb;
     }
 
-    public Books getBookById(Long id) {
+    public Books getBookById(Long booksId) {
 //        return booksRepo.getBookById(id);
         Books b = new Books();
-        mapper.map(booksEntityRepo.getReferenceById(id), b);
+        mapper.map(booksEntityRepo.getReferenceById(booksId), b);
         return b;
     }
 
@@ -47,7 +47,7 @@ public class BooksServiceDbImpl implements BooksService {
     public ApiResponse addBooks(Books books) {
         try {
             Long id = booksEntityRepo.findMaxId();
-            books.setId(((id != null ? id : 1L)));
+            books.setBooksId(((id != null ? id : 1L)));
             return ApiResponse.build(HttpStatus.CREATED).body(booksEntityRepo.save(new BooksEntity(books))).details("Data Added Successfully");
         } catch (Exception ex) {
             return ApiResponse.build(HttpStatus.INTERNAL_SERVER_ERROR).message(ex.getMessage());
@@ -57,7 +57,7 @@ public class BooksServiceDbImpl implements BooksService {
     @Transactional
     public ApiResponse updateBooks(HashMap<String, Object> books) {
 //    public void updateBooks(Books books){
-        Optional<BooksEntity> bookUpdOpt = booksEntityRepo.findById(Long.parseLong(books.get("id").toString()));
+        Optional<BooksEntity> bookUpdOpt = booksEntityRepo.findById(Long.parseLong(books.get("booksId").toString()));
         BeanWrapper wrapper = new BeanWrapperImpl(bookUpdOpt.get());
 
         if (bookUpdOpt.isPresent()) {
@@ -109,9 +109,9 @@ public class BooksServiceDbImpl implements BooksService {
         }
     }
 
-    public ApiResponse deleteBooksById(Long id) {
+    public ApiResponse deleteBooksById(Long booksId) {
         try {
-            booksEntityRepo.deleteById(id);
+            booksEntityRepo.deleteById(booksId);
             return ApiResponse.build(HttpStatus.OK).body("Deleted Successfully").message("Deleted Successfully").data("Deleted Successfully").details("Deleted Successfully");
         } catch (Exception ex){
             return ApiResponse.build(HttpStatus.INTERNAL_SERVER_ERROR).message("message Book not found").body("message Book not found").data("message Book not found").details("message Book not found");

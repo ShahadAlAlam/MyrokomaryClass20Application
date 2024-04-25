@@ -21,9 +21,9 @@ public class BooksRepo{
     public Books addBooks(Books books){
       Long id;
       if(this.booksList.size()>0)
-          id=this.booksList.stream().max((b,b1)->b.getId() > b1.getId() ? 1: -1).get().getId()+1;
+          id=this.booksList.stream().max((b,b1)->b.getBooksId() > b1.getBooksId() ? 1: -1).get().getBooksId()+1;
       else id = 1L;
-      books.setId(id);
+      books.setBooksId(id);
       this.booksList.add(books);
       return books;
     }
@@ -34,7 +34,7 @@ public class BooksRepo{
 
     public void updateBooks(Long id, Books books){
         this.booksList.forEach(b->{
-            if(b.getId()==id){
+            if(b.getBooksId()==id){
                 b.setAuthor(books.getAuthor());
                 b.setCountry(books.getCountry());
                 b.setEdition(books.getEdition());
@@ -47,12 +47,12 @@ public class BooksRepo{
             }
         });
     }
-    public Books getBookById(Long id){
+    public Books getBookById(Long booksId){
         return (Books) this.booksList.stream()
-                .filter(b -> b.getId()==id);
+                .filter(b -> b.getBooksId()==booksId);
     }
 
-    public void deleteBooksById(Long id){
-        this.booksList.remove(getBookById(id));
+    public void deleteBooksById(Long booksId){
+        this.booksList.remove(getBookById(booksId));
     }
 }

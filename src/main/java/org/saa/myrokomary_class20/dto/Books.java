@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Optional;
 
 public class Books  implements Comparable {
-    private Long id;
+    private Long booksId;
     private String title;
     private String author;
     private String publisher;
@@ -17,8 +17,8 @@ public class Books  implements Comparable {
     public Books(){
 
     }
-    public Books(Long id, String title, String author, String publisher, String edition, Long numberOfPages, String country, String language) {
-        this.id = id;
+    public Books(Long booksId, String title, String author, String publisher, String edition, Long numberOfPages, String country, String language) {
+        this.booksId = booksId;
         this.title = title;
         this.author = author;
         this.publisher = publisher;
@@ -38,12 +38,12 @@ public class Books  implements Comparable {
         this.language = language;
     }
 
-    public Long getId() {
-        return id;
+    public Long getBooksId() {
+        return booksId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setBooksId(Long booksId) {
+        this.booksId = booksId;
     }
 
     public String getTitle() {
@@ -105,7 +105,7 @@ public class Books  implements Comparable {
     @Override
     public String toString() {
         return "Books{" +
-                "id='" + id + '\'' +
+                "booksId='" + booksId + '\'' +
                 "title='" + title + '\'' +
                 ", author='" + author + '\'' +
                 ", publisher='" + publisher + '\'' +
@@ -119,15 +119,15 @@ public class Books  implements Comparable {
     @Override
     public int compareTo(Object o) {
         Books b = (Books) o;
-        if(this.id>b.id)
+        if(this.booksId>b.booksId)
         return 1;
-        else if(this.id<b.id){
+        else if(this.booksId<b.booksId){
             return -1;
         } else return 0;
     }
 
     public Books (BooksEntity books) {
-        this.id =  books.id;
+        this.booksId =  books.booksId;
         this.title = books.title;
         this.author = books.author;
         this.publisher = books.publisher;
@@ -138,7 +138,7 @@ public class Books  implements Comparable {
     }
 
     public Books (HashMap<String,Object> books) {
-        this.id =Long.parseLong( books.get("id").toString());
+        this.booksId =Long.parseLong( books.get("booksId").toString());
         if( books.containsKey("title")) {
             this.title = books.get("title").toString();
         }
