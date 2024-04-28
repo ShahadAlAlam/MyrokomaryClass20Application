@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/bootstrap.min.css}" type="text/css">
+</head>
+<body>
+<div class="container-sm">
+    <h1>List of Books</h1>
+    <div class="row">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+            <tr scope="row">
+                <th scope="col">Title</th>
+                <th scope="col">Author</th>
+                <th scope="col">Publisher</th>
+                <th scope="col">Edition</th>
+                <th scope="col">Number of Pages</th>
+                <th scope="col">Country</th>
+                <th scope="col">Language</th>
+                <th scope="col">Delete</th>
+                <th scope="col">Update</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr scope="row" th:each="book :${books}">
+                <td th:text="${book.title}"></td>
+                <td th:text="${book.author}"></td>
+                <td th:text="${book.publisher}"></td>
+                <td th:text="${book.edition}"></td>
+                <td th:text="${book.numberOfPages}"></td>
+                <td th:text="${book.country}"></td>
+                <td th:text="${book.language}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

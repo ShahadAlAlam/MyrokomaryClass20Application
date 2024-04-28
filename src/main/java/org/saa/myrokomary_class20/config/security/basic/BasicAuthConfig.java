@@ -3,6 +3,7 @@ package org.saa.myrokomary_class20.config.security.basic;
 import org.saa.myrokomary_class20.entity.AccountEntity;
 import org.saa.myrokomary_class20.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
@@ -55,7 +56,12 @@ public class BasicAuthConfig {
         return httpSecurity.authorizeHttpRequests( auth ->
                         auth
                             .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+//                            .requestMatchers(
+//                                    PathRequest
+//                                            .toStaticResources()
+//                                            .atCommonLocations()).permitAll()
                             .requestMatchers(AUTH_WHITELIST).permitAll()
+                            .requestMatchers("/css/**", "/js/**", "/images/**", "/fonts/**","/templates/**","/static/**").permitAll()
                             .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement( session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

@@ -42,12 +42,15 @@ public class MyrokomaryClass20Application {
                 ; // Allow sending credentials (e.g., cookies, Authorization header)
             }
 
-            @Override
-            public void addResourceHandlers(ResourceHandlerRegistry registry) {
-                registry.addResourceHandler("/swagger-ui/**")
-                        .addResourceLocations("classpath:/META-INF/resources/webjars/springdoc-openapi-ui/")
-                        .resourceChain(false);
-            }
+//            @Override
+//            public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//                registry
+//                        .addResourceHandler("/swagger-ui/**","/templates/**","/static/**")
+//                        .addResourceLocations("classpath:/META-INF/resources/webjars/springdoc-openapi-ui/")
+//                        .addResourceLocations("classpath:/static/")
+//                        .addResourceLocations("classpath:/templates/")
+//                        .resourceChain(false);
+//            }
 //        return new WebMvcConfigurer() {
 //
 ////            @Autowired

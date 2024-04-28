@@ -8,13 +8,16 @@ import org.saa.myrokomary_class20.services.BooksServiceInternalImpl;
 import org.saa.myrokomary_class20.utils.ApiResponse;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.List;
 
-@RestController
+@RestController //it only work with jSON so thymeleaf will not work
+//@Controller // for thymeleaf
 public class BooksController {
 
 //    @Autowired
@@ -46,6 +49,7 @@ public class BooksController {
 
     @GetMapping(value="/get-book-by-id/{id}")
     public Books getBookById(@PathVariable(name="id") Long id){
+
         return booksService.getBookById(id);
     }
 
@@ -68,6 +72,14 @@ public class BooksController {
     public ApiResponse deleteBooksById(@PathVariable(name="booksId") Long booksId){
         return booksService.deleteBooksById(booksId);
     }
+//    @CrossOrigin
+//    @GetMapping(value="/all-books-list-tl")
+//    public String getAllBooksTl(Model model){
+////        model.addAttribute("books", "Hello World!");
+//        List<Books> books = booksService.getAllBooks();
+//        model.addAttribute("books", books);
+//        return "listbooks";
+//    }
 
 
 }
