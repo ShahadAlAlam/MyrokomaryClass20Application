@@ -4,11 +4,14 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.saa.myrokomary_class20.dto.Books;
 import org.saa.myrokomary_class20.entity.BooksEntity;
+import org.saa.myrokomary_class20.projections.BooksEntityProjection;
 import org.saa.myrokomary_class20.repos.BooksEntityRepo;
 import org.saa.myrokomary_class20.utils.ApiResponse;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.PropertyAccessor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -33,6 +36,17 @@ public class BooksServiceDbImpl implements BooksService {
     public List<Books> getAllBooks() {
         List<Books> lb = new ArrayList<>();
         lb = mapper.map(booksEntityRepo.findAllByOrderByBooksIdAsc().stream().toList(), List.class);
+        return lb;
+    }
+
+    public List<BooksEntityProjection> getAllBooksProj(int pageNumber, int pageSize){
+        Pageable pageable = PageRequest.of(pageNumber,pageSize);
+        return booksEntityRepo.findAllSpecific(pageable);
+    }
+    public List<Books> getAllBooks(int pageNumber,int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber,pageSize);
+        List<Books> lb = new ArrayList<>();
+        lb = mapper.map(booksEntityRepo.findAllByOrderByBooksIdAsc(pageable).stream().toList(), List.class);
         return lb;
     }
 

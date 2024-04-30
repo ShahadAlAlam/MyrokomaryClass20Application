@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.saa.myrokomary_class20.dto.Books;
 import org.saa.myrokomary_class20.entity.BooksEntity;
+import org.saa.myrokomary_class20.projections.BooksEntityProjection;
 import org.saa.myrokomary_class20.repos.BooksRepo;
 import org.saa.myrokomary_class20.utils.ApiResponse;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,12 @@ public class BooksServiceInternalImpl implements BooksService {
     public List<Books> getAllBooks(){
         return booksRepo.getBooksList();
     }
+    public List<Books> getAllBooks(int pageNumber,int pageSize){
+        return booksRepo.getBooksList();
+    }
+    public List<BooksEntityProjection> getAllBooksProj(int pageNumber, int pageSize){
+        return null;
+    };
 
     public Books getBookById(Long id){
         return booksRepo.getBookById(id);

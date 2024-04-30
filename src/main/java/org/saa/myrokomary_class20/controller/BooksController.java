@@ -2,6 +2,7 @@ package org.saa.myrokomary_class20.controller;
 
 import org.saa.myrokomary_class20.dto.Books;
 import org.saa.myrokomary_class20.entity.BooksEntity;
+import org.saa.myrokomary_class20.projections.BooksEntityProjection;
 import org.saa.myrokomary_class20.services.BooksServiceDbImpl;
 import org.saa.myrokomary_class20.services.BooksService;
 import org.saa.myrokomary_class20.services.BooksServiceInternalImpl;
@@ -42,9 +43,13 @@ public class BooksController {
 //    @GetMapping(value="/")
     @CrossOrigin
     @GetMapping(value="/all-books-list")
-    public List<Books> getAllBooks(){
-
-        return booksService.getAllBooks();
+    public List<Books> getAllBooks(@RequestParam(name="pageNumber",defaultValue="1") int pageNumber,@RequestParam(name="pageSize",defaultValue="null") int pageSize){
+        return booksService.getAllBooks(pageNumber,pageSize);
+    }
+    @CrossOrigin
+    @GetMapping(value="/all-books-list-proj")
+    public List<BooksEntityProjection> getAllBooksProj(@RequestParam(name="pageNumber",defaultValue="1") int pageNumber, @RequestParam(name="pageSize",defaultValue="null") int pageSize){
+        return booksService.getAllBooksProj(pageNumber,pageSize);
     }
 
     @GetMapping(value="/get-book-by-id/{id}")
