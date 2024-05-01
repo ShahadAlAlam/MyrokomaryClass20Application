@@ -13,17 +13,22 @@ import org.springframework.security.core.userdetails.User;
 
 import java.sql.Date;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
 @DynamicUpdate(value = true)
+@AllArgsConstructor
 @Table(name="account")
 @Getter
 @Setter
 public class AccountEntity{
     @Id
     @Column(updatable = false)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long accountId;
 
     @Column
@@ -66,10 +71,26 @@ public class AccountEntity{
     @JsonIgnore
     private List<AccountAddress> accountAddresses;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name="user_role",
+    joinColumns = @JoinColumn(name="accountId"),
+    inverseJoinColumns = @JoinColumn(name="roleId"))
+    private Set<Role> roles = new HashSet<>();
+
     public AccountEntity(){
 
     }
     public AccountEntity(Long accountId) {
         this.accountId=accountId;
+    }
+
+    public AccountEntity(String fullName, String userName, String password) {
+        this.fullName = fullName;
+        this.userName = userName;
+        this.password = password;
+    }
+
+    public void addRole(Role role){
+        this.roles.add(role);
     }
 }

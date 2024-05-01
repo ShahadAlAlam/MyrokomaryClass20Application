@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AccountEntityRepo extends JpaRepository<AccountEntity,Long> {
@@ -15,4 +16,6 @@ public interface AccountEntityRepo extends JpaRepository<AccountEntity,Long> {
     public Long findMaxId();
 
     public AccountEntity findByUserNameAndPassword( String userName, String password);
+
+    public Optional<AccountEntity> findByUserName(String userName);
 }

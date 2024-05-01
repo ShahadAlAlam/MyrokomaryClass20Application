@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-@RestController
+@RestController("/order")
 public class OrderController {
     @Autowired
     private OrderService orderService;
