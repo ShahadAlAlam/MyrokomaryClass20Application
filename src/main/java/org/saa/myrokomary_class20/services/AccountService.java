@@ -3,6 +3,7 @@ package org.saa.myrokomary_class20.services;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.saa.myrokomary_class20.config.security.basic.MyPasswordEncoder;
+import org.saa.myrokomary_class20.dto.UserPrinciple;
 import org.saa.myrokomary_class20.entity.AccountEntity;
 import org.saa.myrokomary_class20.entity.OrderEntity;
 import org.saa.myrokomary_class20.repos.AccountEntityRepo;
@@ -16,7 +17,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -28,6 +31,12 @@ public class AccountService implements UserDetailsService
     private MyPasswordEncoder passwordEncoder;
     private AccountEntityRepo accountEntityRepo;
     private OrderEntity orderEntity;
+
+    public static AccountEntity getAccountEntityData() {
+        return accountEntityData;
+    }
+
+    private static AccountEntity accountEntityData;
 
 
     AccountService(AccountEntityRepo accountEntityRepo) {
@@ -59,12 +68,20 @@ public class AccountService implements UserDetailsService
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         AccountEntity accountEntity = accountEntityRepo.findByUserName(username)
                 .orElseThrow(()->new UsernameNotFoundException("User not Found "+username));
-
-        return org.springframework.security.core.userdetails.User
-                .builder()
-                .username(accountEntity.getUserName())
-                .password(accountEntity.getPassword())
-                .roles(accountEntity.getRoles().stream().map(role->role.getRoleName()).toArray(String[]::new))
-                .build();
+        UserPrinciple userPrinciple = new UserPrinciple(accountEntity);
+        this.accountEntityData = accountEntity;
+        return userPrinciple;
+//        return org.springframework.security.core.userdetails.User
+//                .builder()
+//                .username(accountEntity.getUserName())
+////                .password("{noop}"+accountEntity.getPassword()) //JWT
+//                .password(accountEntity.getPassword())
+//                .roles(accountEntity.getRoles().stream().map(role->role.getRoleName()).toArray(String[]::new))
+//                .build();
     }
+
+//    private PasswordEncoder getPasswordEncoder() {
+//        return NoOpPasswordEncoder.getInstance();
+//    }
+
 }

@@ -15,6 +15,7 @@ import java.util.List;
 
 //@RestController //it only work with jSON so thymeleaf will not work
 @Controller
+@RequestMapping("/tl")
 public class BooksControllerTl {
 
 //    @Autowired

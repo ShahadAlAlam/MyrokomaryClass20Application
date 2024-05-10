@@ -19,11 +19,12 @@ public class JwtAuthenticationController {
                                        AuthenticationManager authenticationManager) {
         this.tokenService = tokenService;
         this.authenticationManager = authenticationManager;
+
     }
 
     @PostMapping("/authenticate")
     public ResponseEntity<JwtTokenResponse> generateToken(
-            @RequestBody LoginController.JwtTokenRequest jwtTokenRequest) {
+            @RequestBody JwtTokenRequest jwtTokenRequest) {
 
         var authenticationToken =
                 new UsernamePasswordAuthenticationToken(
@@ -37,5 +38,5 @@ public class JwtAuthenticationController {
 
         return ResponseEntity.ok(new JwtTokenResponse(token));
     }
-//    public record JwtTokenRequest(String username, String password) {}
+    private record JwtTokenRequest(String username, String password) {}
 }

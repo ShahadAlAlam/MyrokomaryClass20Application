@@ -17,7 +17,8 @@ import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.List;
 
-@RestController("/books") //it only work with jSON so thymeleaf will not work
+@RestController //it only work with jSON so thymeleaf will not work
+@RequestMapping("/books")
 //@Controller // for thymeleaf
 public class BooksController {
 

@@ -6,6 +6,8 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.UUID;
 
+import org.saa.myrokomary_class20.config.Configs;
+import org.saa.myrokomary_class20.services.AccountService;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
@@ -47,17 +49,25 @@ import static org.springframework.security.web.util.matcher.AntPathRequestMatche
 //@EnableWebSecurity
 //@EnableMethodSecurity
 public class JwtSecurityConfig {
+    private final AccountService userDetailsService;
+
+    JwtSecurityConfig(AccountService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, HandlerMappingIntrospector introspector) throws Exception {
 
-        // h2-console is a servlet
-        // https://github.com/spring-projects/spring-security/issues/12310
         return httpSecurity
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/authenticate").permitAll()
-                        .requestMatchers(HttpMethod.OPTIONS, "/**")
-                        .permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .requestMatchers("/swagger-ui/index.html").permitAll()
+                        .requestMatchers("/api-docs/swagger-config").permitAll()
+                            .requestMatchers(PathRequest.toStaticResources()
+                                            .atCommonLocations()).permitAll()
+                        .requestMatchers(Configs.getAuthWhitelist()).permitAll()
+                        .requestMatchers("/css/**", "/js/**", "/images/**", "/fonts/**", "/templates/**", "/static/**").permitAll()
                         .anyRequest()
                         .authenticated())
 //                .csrf(AbstractHttpConfigurer::disable)
@@ -90,17 +100,18 @@ public class JwtSecurityConfig {
         return new ProviderManager(authenticationProvider);
     }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails user = User.withUsername("admin")
-                .password("{noop}admin")
-//                .password("admin")
-                .authorities("read")
-                .roles("USER")
-                .build();
 
-        return new InMemoryUserDetailsManager(user);
-    }
+//    @Bean
+//    public UserDetailsService userDetailsService() {
+//        UserDetails user = User.withUsername("admin")
+//                .password("{noop}admin")
+////                .password("admin")
+//                .authorities("read")
+//                .roles("USER")
+//                .build();
+//
+//        return new InMemoryUserDetailsManager(user);
+//    }
 
     @Bean
     public JWKSource<SecurityContext> jwkSource() {
@@ -111,6 +122,7 @@ public class JwtSecurityConfig {
 
     @Bean
     JwtEncoder jwtEncoder(JWKSource<SecurityContext> jwkSource) {
+
         return new NimbusJwtEncoder(jwkSource);
     }
 

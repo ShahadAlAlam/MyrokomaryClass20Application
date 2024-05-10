@@ -45,6 +45,14 @@ public class Configs {
 
     private static Properties conProps = new Properties();
 
+    private static String[] AUTH_WHITELIST = {
+            "/api/v1/auth/**",
+            "/v3/api-docs.yaml",
+            "/swagger-ui/**",
+            "/v3/api-docs/**",
+            "/swagger-ui.html"
+    };
+
     private static String[] allowedRestApiMethodes = {"GET","POST","PUT","DELETE"};
     public static void build(){
 //        db_db_type="POSTGRESQL";
@@ -93,6 +101,10 @@ public class Configs {
         config_jpa_generate_ddl="true";
 
 
+    }
+
+    public static String[] getAuthWhitelist() {
+        return AUTH_WHITELIST;
     }
 
     public static void loadConfig(){

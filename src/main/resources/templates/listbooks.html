@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" th:href="@{/bootstrap.min.css}" type="text/css">
+    <script th:src="@{/script.js}"></script>
+
 </head>
 <body>
 <div class="container-sm">
@@ -32,6 +34,8 @@
                 <td th:text="${book.numberOfPages}"></td>
                 <td th:text="${book.country}"></td>
                 <td th:text="${book.language}"></td>
+                <td ><button class="btn btn-warning m-2" th:onClick="delete()">Delete</button></td>
+                <td ><button class="btn btn-success m-2" th:onClick="update()">Update</button></td>
             </tr>
             </tbody>
         </table>

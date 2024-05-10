@@ -29,10 +29,24 @@ public class MyrokomaryClass20Application {
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {
+//        return new WebMvcConfigurer() {
+//            @Override
+//            public void addCorsMappings(CorsRegistry registry) {
+//
+//                registry.addMapping("/**")
+//                        .allowedMethods(Configs.getAllowedRestApiMethodes()) // Allow specific HTTP methods
+////                        .allowedMethods("GET","POST") // Allow specific HTTP methods
+//                        .allowedOrigins("*") // Allow requests from any origin (update as needed)
+//                        .allowedHeaders("*") // Allow all headers
+////                        .allowCredentials(true)
+//                ; // Allow sending credentials (e.g., cookies, Authorization header)
+//            }
         return new WebMvcConfigurer() {
+
+//            @Autowired
+//            private SecValidateorInterceptor secValidateorInterceptor;
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-
                 registry.addMapping("/**")
                         .allowedMethods(Configs.getAllowedRestApiMethodes()) // Allow specific HTTP methods
 //                        .allowedMethods("GET","POST") // Allow specific HTTP methods
@@ -41,29 +55,15 @@ public class MyrokomaryClass20Application {
 //                        .allowCredentials(true)
                 ; // Allow sending credentials (e.g., cookies, Authorization header)
             }
-
-//            @Override
-//            public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//                registry
-//                        .addResourceHandler("/swagger-ui/**","/templates/**","/static/**")
-//                        .addResourceLocations("classpath:/META-INF/resources/webjars/springdoc-openapi-ui/")
-//                        .addResourceLocations("classpath:/static/")
-//                        .addResourceLocations("classpath:/templates/")
-//                        .resourceChain(false);
-//            }
-//        return new WebMvcConfigurer() {
-//
-////            @Autowired
-////            private SecValidateorInterceptor secValidateorInterceptor;
-//            @Override
-//            public void addCorsMappings(CorsRegistry registry) {
-//                registry.addMapping("/**")
-//                        .allowedMethods(Configs.getAllowedRestApiMethodes()) // Allow specific HTTP methods
-////                        .allowedMethods("GET","POST") // Allow specific HTTP methods
-//                        .allowedOrigins("*") // Allow requests from any origin (update as needed)
-//                        .allowedHeaders("*") // Allow all headers
-////                        .allowCredentials(true)
-//                ; // Allow sending credentials (e.g., cookies, Authorization header)
+            @Override
+            public void addResourceHandlers(ResourceHandlerRegistry registry) {
+                registry
+                        .addResourceHandler("/swagger-ui/**","/templates/**","/static/**")
+                        .addResourceLocations("classpath:/META-INF/resources/webjars/springdoc-openapi-ui/")
+                        .addResourceLocations("classpath:/static/")
+                        .addResourceLocations("classpath:/templates/")
+                        .resourceChain(false);
+            }
 
 
 

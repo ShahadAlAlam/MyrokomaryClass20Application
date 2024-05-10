@@ -4,6 +4,8 @@ import org.saa.myrokomary_class20.services.AccountService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -13,11 +15,27 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class BasicAuthConfig {
-    private final AccountService userDetailsService;
-
-    BasicAuthConfig(AccountService userDetailsService) {
-        this.userDetailsService = userDetailsService;
+    public AccountService getUserDetailsService() {
+        return userDetailsService;
     }
+
+    private final AccountService userDetailsService;
+    private final MyPasswordEncoder myPasswordEncoder;
+
+    BasicAuthConfig(AccountService userDetailsService, MyPasswordEncoder myPasswordEncoder) {
+        this.userDetailsService = userDetailsService;
+        this.myPasswordEncoder = myPasswordEncoder;
+    }
+
+    @Bean
+    public AuthenticationProvider myAuthenticationProvider(){
+        DaoAuthenticationProvider myAuthenticationProvider = new DaoAuthenticationProvider();
+        myAuthenticationProvider.setUserDetailsService(this.userDetailsService);
+        myAuthenticationProvider.setPasswordEncoder(this.myPasswordEncoder.passwordEncoder());
+        return myAuthenticationProvider;
+    }
+
+
 
     // 1. Spring Security Filter Chain to Filter which request will pass
     //  a. it will authenticate all request
@@ -32,6 +50,13 @@ public class BasicAuthConfig {
             "/swagger-ui.html"
     };
 
+    private static final String[] AUTH_METHODS ={
+            "GET","POST",
+            "PUT","DELETE",
+            "OPTIONS","HEAD",
+            "PATCH","TRACE"
+    };
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
 //      1. Request Response does not pass pre-flight request
@@ -40,25 +65,20 @@ public class BasicAuthConfig {
 
         return httpSecurity.authorizeHttpRequests(auth ->
                         auth
-                                .requestMatchers(HttpMethod.OPTIONS, "/books/**").permitAll()
-                                .requestMatchers(HttpMethod.OPTIONS, "/account-address/**").permitAll()
-                                .requestMatchers(HttpMethod.OPTIONS, "/account/**").permitAll()
-                                .requestMatchers(HttpMethod.OPTIONS, "/order/**").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/account/add-account").permitAll()
+                                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                                .requestMatchers("/swagger-ui/index.html").permitAll()
 //                            .requestMatchers(
 //                                    PathRequest
 //                                            .toStaticResources()
 //                                            .atCommonLocations()).permitAll()
-                                .requestMatchers(HttpMethod.GET, AUTH_WHITELIST).permitAll() //permitAll()
+                                .requestMatchers(AUTH_WHITELIST).permitAll() //permitAll()
                                 .requestMatchers("/css/**", "/js/**", "/images/**", "/fonts/**", "/templates/**", "/static/**").permitAll() //.permitAll()
                                 .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults())
+//                .formLogin(Customizer.withDefaults())
 //                .csrf().disable()
                 .csrf(csrf -> csrf.disable())
-//                .httpBasic(Customizer.withDefaults())
-//                .httpBasic(Customizer("/login").withDefaults())
-
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 //                .csrf(AbstractHttpConfigurer::disable)
                 .build();
