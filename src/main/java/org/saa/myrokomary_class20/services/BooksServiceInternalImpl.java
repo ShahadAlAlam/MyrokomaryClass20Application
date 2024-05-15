@@ -37,46 +37,24 @@ public class BooksServiceInternalImpl implements BooksService {
     }
 
     @Transactional
-    public ApiResponse addBooks(Books books){
-        try {
-            return ApiResponse.build(HttpStatus.CREATED).body(booksRepo.addBooks(books));
-        } catch (Exception ex){
-            return ApiResponse.build(HttpStatus.INTERNAL_SERVER_ERROR).message(ex.getMessage());
-        }
-
+    public Books addBooks(Books books){
+            return booksRepo.addBooks(books);
     }
 
     @Transactional
-    public ApiResponse updateBooks(HashMap<String,Object> books){
-        try {
-            booksRepo.updateBooks(Long.parseLong(books.get("id").toString()), new Books(books));
-            return ApiResponse.build(HttpStatus.OK).body(books);
-
-        } catch (Exception ex){
-            return ApiResponse.build(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
-        }
+    public Books updateBooks(HashMap<String,Object> books){
+            return booksRepo.updateBooks(Long.parseLong(books.get("id").toString()), new Books(books));
     }
 
     @Transactional
-    public ApiResponse deleteBooks(Books books){
-
-        try {
-            booksRepo.deleteBooks(books);
-            return ApiResponse.build(HttpStatus.NO_CONTENT).message("Deleted Successfully");
-        } catch (Exception ex){
-            return ApiResponse.build(HttpStatus.INTERNAL_SERVER_ERROR).message("message Book not found");
-        }
+    public Books deleteBooks(Books books){
+        booksRepo.deleteBooks(books);
+        return books;
     }
 
     @Transactional
-    public ApiResponse deleteBooksById(Long booksId){
-
-        try {
-            booksRepo.deleteBooksById(booksId);
-            return ApiResponse.build(HttpStatus.NO_CONTENT).message("Deleted Successfully");
-        } catch (Exception ex){
-            return ApiResponse.build(HttpStatus.INTERNAL_SERVER_ERROR).message("message Book not found");
-        }
+    public Long deleteBooksById(Long booksId){
+        return booksRepo.deleteBooksById(booksId);
     }
 
 }

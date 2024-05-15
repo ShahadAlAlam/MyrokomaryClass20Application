@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
-import org.saa.myrokomary_class20.config.constents.Model;
+import org.saa.myrokomary_class20.config.constents.DbCommonModel;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class TestEntity extends Model {
+public class TestEntity extends DbCommonModel {
 
     @Id()
     @Column(updatable = false)

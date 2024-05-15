@@ -18,13 +18,13 @@ public interface BooksService {
     public Books getBookById(Long id);
 //    @Transactional
 //    @PostMapping(value="/add-book")
-    public ApiResponse addBooks(Books books);
+    public Books addBooks(Books books);
 
 //    @Transactional
-    public ApiResponse updateBooks(HashMap<String,Object> books);
+    public Books updateBooks(HashMap<String,Object> books);
 
 //    @Transactional
-    public ApiResponse deleteBooks(Books books);
-    public ApiResponse deleteBooksById(Long booksId);
+    public Books deleteBooks(Books books);
+    public Long deleteBooksById(Long booksId);
 
 }

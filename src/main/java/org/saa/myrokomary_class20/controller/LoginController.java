@@ -12,36 +12,41 @@ import java.util.List;
 
 @RestController
 public class LoginController {
-    @GetMapping(value="/basicauth")
-    public String basicAuthCheck(){
+//    @GetMapping(value="/basicauth")
+//    public String basicAuthCheck(){
+//
+//        return "hello world";
+//    }
+    private final JwtTokenService tokenService;
 
-        return "hello world";
+    private final AuthenticationManager authenticationManager;
+
+    public LoginController(JwtTokenService tokenService,
+                                       AuthenticationManager authenticationManager) {
+        this.tokenService = tokenService;
+        this.authenticationManager = authenticationManager;
     }
-//    private final JwtTokenService tokenService;
-//
-//    private final AuthenticationManager authenticationManager;
-//
-//    public LoginController(JwtTokenService tokenService,
-//                                       AuthenticationManager authenticationManager) {
-//        this.tokenService = tokenService;
-//        this.authenticationManager = authenticationManager;
-//    }
-//
-//    @PostMapping("/authenticate")
-//    public ResponseEntity<JwtTokenResponse> generateToken(
-//            @RequestBody JwtTokenRequest jwtTokenRequest) {
-//
-//        var authenticationToken =
-//                new UsernamePasswordAuthenticationToken(
-//                        jwtTokenRequest.username(),
-//                        jwtTokenRequest.password());
-//
-//        var authentication =
-//                authenticationManager.authenticate(authenticationToken);
-//
-//        var token = tokenService.generateToken(authentication);
-//
+
+    @PostMapping("/authenticate")
+    public ResponseEntity<JwtTokenResponse> generateToken(
+            @RequestBody JwtTokenRequest jwtTokenRequest) {
+
+        var authenticationToken =
+                new UsernamePasswordAuthenticationToken(
+                        jwtTokenRequest.username(),
+                        jwtTokenRequest.password());
+
+        var authentication =
+                authenticationManager.authenticate(authenticationToken);
+
+        var token = tokenService.generateToken(authentication);
+        if (authentication.isAuthenticated()) {
+            return ResponseEntity.ok(new JwtTokenResponse(token));
+        } else {
+            return null;
+        }
 //        return ResponseEntity.ok(new JwtTokenResponse(token));
-//    }
+
+    }
     public record JwtTokenRequest(String username, String password) {}
 }

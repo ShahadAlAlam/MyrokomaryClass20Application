@@ -10,14 +10,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.lang.reflect.Field;
-import java.sql.Date;
 
 @MappedSuperclass
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public abstract class Model implements Cloneable{
+public abstract class DbCommonModel implements Cloneable{
     @Column
     private Long cidId;
 

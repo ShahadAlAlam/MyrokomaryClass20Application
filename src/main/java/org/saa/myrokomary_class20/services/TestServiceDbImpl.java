@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.saa.myrokomary_class20.config.security.basic.BasicAuthConfig;
 import org.saa.myrokomary_class20.dto.Books;
+import org.saa.myrokomary_class20.dto.UserPrinciple;
 import org.saa.myrokomary_class20.entity.TestDtlEntity;
 import org.saa.myrokomary_class20.entity.TestEntity;
 import org.saa.myrokomary_class20.repos.TestDtlEntityRepo;
@@ -14,6 +15,9 @@ import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -23,8 +27,13 @@ public class TestServiceDbImpl {
     private TestEntityRepo testEntityRepo;
     private TestDtlEntityRepo testDtlEntityRepo;
 
+//    @Autowired
+//    private BasicAuthConfig basicAuthConfig;
+
     @Autowired
-    private BasicAuthConfig basicAuthConfig;
+    private AccountService accountService;
+
+
 
     @Autowired
     private DynamicSave dynamicSave;
@@ -64,7 +73,8 @@ public class TestServiceDbImpl {
     @Transactional
     public ApiResponse addTestData(TestEntity testEntity) {
         testEntity.setCidId(1L);
-        Long creId = basicAuthConfig.getUserDetailsService().getAccountEntityData().getAccountId();
+//        Long creId = basicAuthConfig.getUserDetailsService().getAccountEntityData().getAccountId();
+        Long creId = accountService.getAccountEntityData().getAccountId();
         testEntity.setCreatedBy(creId);
         testEntity.setCreatedOn(new java.sql.Timestamp(System.currentTimeMillis()));
         try {
@@ -89,7 +99,8 @@ public class TestServiceDbImpl {
                     System.out.println(e.getMessage());
                 }
             });
-            Long modId = basicAuthConfig.getUserDetailsService().getAccountEntityData().getAccountId();
+//            Long modId = basicAuthConfig.getUserDetailsService().getAccountEntityData().getAccountId();
+            Long modId = accountService.getAccountEntityData().getAccountId();;
             testEntityOptional.get().setModifiedBy(modId);
 
             testEntityOptional.get().setModifiedOn(new java.sql.Timestamp(System.currentTimeMillis()));

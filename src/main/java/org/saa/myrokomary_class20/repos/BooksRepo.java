@@ -28,11 +28,12 @@ public class BooksRepo{
       return books;
     }
 
-    public void deleteBooks(Books books){
+    public Books deleteBooks(Books books){
         this.booksList.remove(books);
+        return books;
     }
 
-    public void updateBooks(Long id, Books books){
+    public Books updateBooks(Long id, Books books){
         this.booksList.forEach(b->{
             if(b.getBooksId()==id){
                 b.setAuthor(books.getAuthor());
@@ -46,13 +47,15 @@ public class BooksRepo{
 //                this.booksList.add(books);
             }
         });
+        return books;
     }
     public Books getBookById(Long booksId){
         return (Books) this.booksList.stream()
                 .filter(b -> b.getBooksId()==booksId);
     }
 
-    public void deleteBooksById(Long booksId){
+    public Long deleteBooksById(Long booksId){
         this.booksList.remove(getBookById(booksId));
+        return booksId;
     }
 }

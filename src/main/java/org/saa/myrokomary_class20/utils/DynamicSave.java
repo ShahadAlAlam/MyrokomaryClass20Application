@@ -3,7 +3,8 @@ package org.saa.myrokomary_class20.utils;
 import jakarta.persistence.Id;
 import org.saa.myrokomary_class20.config.constents.DatabaseTransectionState;
 import org.saa.myrokomary_class20.config.security.basic.BasicAuthConfig;
-import org.saa.myrokomary_class20.config.constents.Model;
+import org.saa.myrokomary_class20.config.constents.DbCommonModel;
+import org.saa.myrokomary_class20.services.AccountService;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +21,12 @@ import java.util.Optional;
 @Service
 public class DynamicSave{
 
+//    @Autowired
+//    private BasicAuthConfig basicAuthConfig;
+
     @Autowired
-    private BasicAuthConfig basicAuthConfig;
-    public <T extends JpaRepository<X,Long>,X extends Model> X update(X entityClass , T repo, Long id, HashMap<String,Object> data){
+    private AccountService accountService;
+    public <T extends JpaRepository<X,Long>,X extends DbCommonModel> X update(X entityClass , T repo, Long id, HashMap<String,Object> data){
         Optional<X> entityClassOptional = repo.findById(id);
         BeanWrapper wrapper = new BeanWrapperImpl(entityClassOptional.get());
             data.keySet().forEach(k -> {
@@ -36,7 +40,8 @@ public class DynamicSave{
                     System.out.println(e.getMessage());
                 }
             });
-            Long modId = basicAuthConfig.getUserDetailsService().getAccountEntityData().getAccountId();
+//            Long modId = basicAuthConfig.getUserDetailsService().getAccountEntityData().getAccountId();
+            Long modId = accountService.getAccountEntityData().getAccountId();
             entityClassOptional.get().setModifiedBy(modId);
 
             entityClassOptional.get().setModifiedOn(new Timestamp(System.currentTimeMillis()));
@@ -44,7 +49,7 @@ public class DynamicSave{
             return entityClassOptional.get();
     }
 
-    public <T extends JpaRepository<X,Long>, X extends Model,M extends Model> List<X> updateDetails(X entityClass , T repo, M masterData ,  List<HashMap<String,Object>> data){
+    public <T extends JpaRepository<X,Long>, X extends DbCommonModel,M extends DbCommonModel> List<X> updateDetails(X entityClass , T repo, M masterData , List<HashMap<String,Object>> data){
         List<X> returnData = new ArrayList<>();
         String idColumnName = getIdColumnName(entityClass.getClass());
         String masterIdColumnName = getIdColumnName(masterData.getClass());
@@ -68,7 +73,8 @@ public class DynamicSave{
                         System.out.println(e.getMessage());
                     }
                 });
-                Long modId = basicAuthConfig.getUserDetailsService().getAccountEntityData().getAccountId();
+//                Long modId = basicAuthConfig.getUserDetailsService().getAccountEntityData().getAccountId();
+                Long modId = accountService.getAccountEntityData().getAccountId();
                 entityClassOptional.get().setModifiedBy(modId);
                 entityClassOptional.get().setModifiedOn(new Timestamp(System.currentTimeMillis()));
                 repo.save(entityClassOptional.get());
@@ -88,7 +94,8 @@ public class DynamicSave{
                         System.out.println(e.getMessage());
                     }
                 });
-                Long creId = basicAuthConfig.getUserDetailsService().getAccountEntityData().getAccountId();
+//                Long creId = basicAuthConfig.getUserDetailsService().getAccountEntityData().getAccountId();
+                Long creId = accountService.getAccountEntityData().getAccountId();
                 entityClassOptional.get().setCreatedBy(creId);
                 entityClassOptional.get().setCreatedOn(new Timestamp(System.currentTimeMillis()));
                 repo.save(entityClassOptional.get());

@@ -47,4 +47,8 @@ public class UserPrinciple implements UserDetails {
     public boolean isEnabled() {
         return this.accountEntity.isEnabled();
     }
+
+    public Long getAccountId(){
+        return this.accountEntity.getAccountId();
+    }
 }

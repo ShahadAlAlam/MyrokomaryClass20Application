@@ -2,36 +2,34 @@ package org.saa.myrokomary_class20.config.security.basic;
 
 import org.saa.myrokomary_class20.services.AccountService;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
-@Configuration
-@EnableWebSecurity
+//@Configuration
+//@EnableWebSecurity
 public class BasicAuthConfig {
     public AccountService getUserDetailsService() {
         return userDetailsService;
     }
 
     private final AccountService userDetailsService;
-    private final MyPasswordEncoder myPasswordEncoder;
+    private final CustomEncodersDecoders customEncodersDecoders;
 
-    BasicAuthConfig(AccountService userDetailsService, MyPasswordEncoder myPasswordEncoder) {
+    BasicAuthConfig(AccountService userDetailsService, CustomEncodersDecoders customEncodersDecoders) {
         this.userDetailsService = userDetailsService;
-        this.myPasswordEncoder = myPasswordEncoder;
+        this.customEncodersDecoders = customEncodersDecoders;
     }
 
     @Bean
     public AuthenticationProvider myAuthenticationProvider(){
         DaoAuthenticationProvider myAuthenticationProvider = new DaoAuthenticationProvider();
         myAuthenticationProvider.setUserDetailsService(this.userDetailsService);
-        myAuthenticationProvider.setPasswordEncoder(this.myPasswordEncoder.passwordEncoder());
+        myAuthenticationProvider.setPasswordEncoder(this.customEncodersDecoders.passwordEncoder());
         return myAuthenticationProvider;
     }
 

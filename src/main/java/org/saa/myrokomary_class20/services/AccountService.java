@@ -1,39 +1,28 @@
 package org.saa.myrokomary_class20.services;
 
-import jakarta.transaction.Transactional;
-import org.modelmapper.ModelMapper;
-import org.saa.myrokomary_class20.config.security.basic.MyPasswordEncoder;
+import org.saa.myrokomary_class20.config.security.basic.CustomEncodersDecoders;
 import org.saa.myrokomary_class20.dto.UserPrinciple;
 import org.saa.myrokomary_class20.entity.AccountEntity;
 import org.saa.myrokomary_class20.entity.OrderEntity;
 import org.saa.myrokomary_class20.repos.AccountEntityRepo;
-import org.saa.myrokomary_class20.repos.OrderEntityRepo;
 import org.saa.myrokomary_class20.utils.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Collection;
 
 @Service
 public class AccountService implements UserDetailsService
 {
     @Autowired
-    private MyPasswordEncoder passwordEncoder;
+    private CustomEncodersDecoders passwordEncoder;
     private AccountEntityRepo accountEntityRepo;
     private OrderEntity orderEntity;
 
-    public static AccountEntity getAccountEntityData() {
-        return accountEntityData;
+    public AccountEntity getAccountEntityData() {
+        return this.accountEntityData;
     }
 
     private static AccountEntity accountEntityData;
