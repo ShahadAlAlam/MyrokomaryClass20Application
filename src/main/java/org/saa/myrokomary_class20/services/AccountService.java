@@ -1,5 +1,6 @@
 package org.saa.myrokomary_class20.services;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.saa.myrokomary_class20.config.security.basic.CustomEncodersDecoders;
 import org.saa.myrokomary_class20.dto.UserPrinciple;
 import org.saa.myrokomary_class20.entity.AccountEntity;
@@ -7,6 +8,7 @@ import org.saa.myrokomary_class20.entity.OrderEntity;
 import org.saa.myrokomary_class20.repos.AccountEntityRepo;
 import org.saa.myrokomary_class20.utils.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -72,5 +74,7 @@ public class AccountService implements UserDetailsService
 //    private PasswordEncoder getPasswordEncoder() {
 //        return NoOpPasswordEncoder.getInstance();
 //    }
+
+
 
 }

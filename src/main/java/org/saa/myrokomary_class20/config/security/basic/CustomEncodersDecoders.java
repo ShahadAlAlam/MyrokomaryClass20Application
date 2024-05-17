@@ -39,7 +39,6 @@ public class CustomEncodersDecoders {
 
     @Bean
     JwtEncoder jwtEncoder(JWKSource<SecurityContext> jwkSource) {
-
         return new NimbusJwtEncoder(jwkSource);
     }
 
@@ -73,4 +72,6 @@ public class CustomEncodersDecoders {
                     "Unable to generate an RSA Key Pair", e);
         }
     }
+
+
 }

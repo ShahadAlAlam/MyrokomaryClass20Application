@@ -1,7 +1,9 @@
 package org.saa.myrokomary_class20.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.saa.myrokomary_class20.config.security.jwt.JwtTokenResponse;
 import org.saa.myrokomary_class20.config.security.jwt.JwtTokenService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,6 +23,8 @@ public class LoginController {
 
     private final AuthenticationManager authenticationManager;
 
+    @Autowired
+    private HttpServletRequest request;
     public LoginController(JwtTokenService tokenService,
                                        AuthenticationManager authenticationManager) {
         this.tokenService = tokenService;
@@ -30,6 +34,7 @@ public class LoginController {
     @PostMapping("/authenticate")
     public ResponseEntity<JwtTokenResponse> generateToken(
             @RequestBody JwtTokenRequest jwtTokenRequest) {
+        System.out.println("login controller "+request.getRequestURI());
 
         var authenticationToken =
                 new UsernamePasswordAuthenticationToken(

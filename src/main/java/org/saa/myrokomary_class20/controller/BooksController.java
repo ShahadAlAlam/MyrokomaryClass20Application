@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -51,12 +52,14 @@ public class BooksController {
 //    @GetMapping(value="/")
     @CrossOrigin
     @GetMapping(value="/all-books-list")
-    public ApiResponse getAllBooks(@RequestParam(name="pageNumber",defaultValue="1") int pageNumber,@RequestParam(name="pageSize",defaultValue="null") int pageSize){
+    public ApiResponse getAllBooks( int pageNumber, @RequestParam(name="pageSize",defaultValue="null") int pageSize){
+
 //        return booksService.getAllBooks(pageNumber,pageSize);
+//        System.out.println(headers.get("User-Agent"));
         try {
             List<Books> books = booksService.getAllBooks(pageNumber,pageSize);
             CollectionModel<Books> entityModel = CollectionModel.of(books);
-            WebMvcLinkBuilder linkBuilder = linkTo(methodOn(this.getClass()).getAllBooks(1,1));
+            WebMvcLinkBuilder linkBuilder = linkTo(methodOn(this.getClass()).getAllBooks(pageNumber,pageSize));
             return ApiResponse.build(HttpStatus.OK)
                     .body(books,linkBuilder,"/books")
                     .message("Data Found");

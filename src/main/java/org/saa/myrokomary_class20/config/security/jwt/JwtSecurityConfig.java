@@ -75,20 +75,5 @@ public class JwtSecurityConfig {
 
         return new ProviderManager( myAuthenticationProvider);
     }
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring()
-                        .requestMatchers("/api/v1/auth/**",
-                                "/v3/api-docs.yaml",
-                                "/swagger-ui/**",
-                                "/v3/api-docs/**",
-                                "/swagger-ui.html",
-                                "/css/**",
-                                "/js/**",
-                                "/images/**",
-                                "/fonts/**",
-                                "/templates/**",
-                                "/static/**");
-    }
 
 }

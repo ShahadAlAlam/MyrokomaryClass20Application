@@ -5,6 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.saa.myrokomary_class20.config.Configs;
+import org.saa.myrokomary_class20.config.security.encriptions.EncryptionService;
 import org.saa.myrokomary_class20.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,9 +17,18 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
+
+    @Autowired
+    private EncryptionService encryptionService;
+
     @Autowired
     private JwtTokenService jwtTokenService;
 
@@ -36,6 +46,14 @@ public class JwtFilter extends OncePerRequestFilter {
         if(authHeader != null && authHeader.startsWith("Bearer ")  && authHeader.length()>20){
             token = authHeader.substring(7);
             userName = jwtTokenService.extractUserName(token);
+//            HashMap<String,Object> dataScope = jwtTokenService.extractScope(token);
+//            HashMap<String,String> data = new HashMap<>();
+//            try {
+//                data = encryptionService.decryptHashMap((byte[])dataScope.get("requestData"));
+//            } catch (Exception e) {
+//                System.out.println(e.getMessage());
+//            }
+//            System.out.println(data);
         }
 
         if(userName != null && SecurityContextHolder.getContext().getAuthentication()==null){
